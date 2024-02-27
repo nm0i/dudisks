@@ -8,10 +8,9 @@ selected_partition=$(lsblk -lp |
 if [[ "${selected_partition% *}" == "mount" ]]
 then
     mount_path=$(udisksctl mount -b "${selected_partition#* }")
-    echo "${mount_path##* }" | xclip
+    command -v xclip >/dev/null && echo "${mount_path##* }" | xclip
 else
     mount_path=$(udisksctl unmount -b "${selected_partition#* }")
 fi
 
-[[ $mount_path != "" ]] && notify-send 'Udisks' "$mount_path"
-
+command -v notify-send >dev/null && [[ $mount_path != "" ]] && notify-send 'Udisks' "$mount_path"
