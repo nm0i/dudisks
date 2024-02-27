@@ -1,0 +1,17 @@
+#!/bin/bash
+
+selected_partition=$(lsblk -lp |
+                         awk '$3 == 1 && $6 == "part" {if($7 == ""){print "mount",$1,$4}else{print "unmount",$1,$4}}'|
+                         dmenu |
+                         awk '{print $1,$2}')
+
+if [[ "${selected_partition% *}" == "mount" ]]
+then
+    mount_path=$(udisksctl mount -b "${selected_partition#* }")
+    echo "${mount_path##* }" | xclip
+else
+    mount_path=$(udisksctl unmount -b "${selected_partition#* }")
+fi
+
+[[ $mount_path != "" ]] && notify-send 'Udisks' "$mount_path"
+
