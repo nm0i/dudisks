@@ -4,9 +4,10 @@ Mount and unmount removables with dmenu-like utilities and udisks on demand.
 
 ## Requirements
 
- * lsblk in your $PATH
+ * lsblk
  * udisks2
  * dmenu
+ * notify-send (optional)
  * xclip (optional)
 
 ## Installation
